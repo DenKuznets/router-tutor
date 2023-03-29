@@ -5,6 +5,7 @@ export async function action({ request, params }) {
   const formData = await request.formData();
   const updates = Object.fromEntries(formData);
   await updateContact(params.contactId, updates);
+  // console.log(redirect(`/contacts/${params.contactId}`));
   return redirect(`/contacts/${params.contactId}`)
 }
 
