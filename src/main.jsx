@@ -7,9 +7,10 @@ import Root, {
   action as rootAction,
 } from "./routes/root";
 import ErrorPage from "./error-page";
-import Contact, { loader as contactLoader } from "./routes/contact";
+import Contact, { loader as contactLoader, action as contactAction } from "./routes/contact";
 import EditContact, { action as editAction } from "./routes/edit";
 import { action as destroyAction } from "./routes/destroy";
+
 // Index - дефолтная страница при открытии приложения
 import Index from "./routes";
 
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
         path: "contacts/:contactId", //: двоеточие означает динамический сегмент ссылки, он называется URL Params, в данном примере передаются загрузчику (loader) в качестве params.contactId
         element: <Contact />,
         loader: contactLoader, //эмулирует загрузку контакта с сервера
+        action: contactAction,
       },
       {
         path: "contacts/:contactId/edit",
