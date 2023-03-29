@@ -10,6 +10,13 @@ export async function action({ request, params }) {
 
 export async function loader({ params }) {
   const contact = await getContact(params.contactId);
+  // на случай если контакт не найден, показать новую ошибку с адекватным текстом вместо reading null
+  if (!contact) {
+    throw new Response('', {
+      status: 404,
+      statusText:"Not found",
+    })
+  }
   return { contact };
 }
 
@@ -78,6 +85,10 @@ function Favorite({ contact }) {
   const fetcher = useFetcher();
   // yes, this is a `let` for later
   let favorite = contact.favorite;
+  // борьба с задержкой на сети. Вместо использования настоящих данных, проверяем если fetcher имеет хоть какую то formData и берем данные оттуда
+  if (fetcher.formData) {
+    favorite = fetcher.formData.get('favorite') === 'true';
+  }
   return (
     <fetcher.Form method="post">
       <button
