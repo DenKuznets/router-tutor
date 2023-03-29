@@ -4,6 +4,7 @@
 // Form замена <form />
 // NavLink - ссылка получающая props active и pending, active - когда ссылка активна, pending - когда собирается стать активной (данные еще подгружаются)
 // useNavigation - возвращает текущее состояние навигации: 'idle' | 'submitting' | 'loading'
+// useSubmit - возвращает функцию, которую можно использовать для програмной отправки формы на сервер. Здесь используем для мнгонвенной фильтрации списка контактов при вводе букв в поисковый input
 import { useEffect } from "react";
 import {
   Outlet,
@@ -59,7 +60,8 @@ export default function Root() {
               defaultValue={q}
               // фильтрация элементов списка сразу при введении текста в search без нажатия enter
               onChange={(event) => {
-                submit(event.currentTarget.form);
+                const isFirstSearch = q == null;
+                submit(event.currentTarget.form, {replace: !isFirstSearch});
               }}
             />
             {/* спиннер будет показываться если идет поиск */}
